@@ -1,0 +1,30 @@
+[
+    {
+        "nombre": "lightpink",
+        "codigo": "#d363b7"
+    },
+    {
+        "solucion": "descompas",
+        "pista": "Falta de medida o proporción"
+    },
+    {
+        "solucion": "diatriba",
+        "pista": "Clásico discurso injurioso en el parlamento"
+    },
+    {
+        "solucion": "diantre",
+        "pista": "Eufemismo de diablo"
+    },
+    {
+        "solucion": "dolaje",
+        "pista": "Vino absorvido por las cubas"
+    },
+    {
+        "solucion": "dogre",
+        "pista": "Embarcación del norte"
+    },
+    {
+        "solucion": "solo",
+        "pista": "Uno sin compañia"
+    }
+]
