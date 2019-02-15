@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+        crossorigin="anonymous">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Truki Memory</title>
@@ -28,44 +29,29 @@
                     <p id="winnerText"></p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" onclick="init(), $rating.removeClass('fa-star-o').addClass('fa-star'); "
-                        class="btn btn-default" data-dismiss="modal">Go Again!</button>
+                    <button type="button" onclick="Start(), $rating.removeClass('fa-star-o').addClass('fa-star'); "
+                        class="btn btn-default" data-dismiss="modal">Juega de nuevo!</button>
                 </div>
             </div>
         </div>
     </div>
     <button class="btn restart bg-negro ">
-        Restart  <i class="fa fa-repeat"></i>
+        Restart <i class="fa fa-repeat"></i>
     </button>
-    <nav class="navbar  barra navbar-dark bg-negro shadow">
+    <nav class="navbar  barra navbar-dark bg-negro shadow navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand text-light barra" href="#">Truki Memory</a>
             </div>
             <section class="info">
-                <!-- <ul class="stars" >
-                    <li>
-                        <i class="fa fa-star"></i>
-                    </li>
-                    <li>
-                        <i class="fa fa-star"></i>
-                    </li>
-                    <li>
-                        <i class="fa fa-star"></i>
-                    </li>
-                </ul> -->
                 <span class="moves">0</span> Intentos | Tiempo:
                 <span class="timer">0</span>
-
             </section>
-            
+
 
         </div>
 
     </nav>
-    <!-- <button class="btn restart bg-negro " >
-        <i class="fa fa-repeat"></i>
-    </button> -->
     <div class="container">
 
         <ul class="deck"></ul>

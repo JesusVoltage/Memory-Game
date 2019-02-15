@@ -1,32 +1,27 @@
 // lista con todos los inconos que quiero que haya en el juego
 
-let icono = ['js', 'js', 'angular', 'angular', 'java', 'java', 'python', 'python', 'php', 'php', 'html5', 'html5', 'css3-alt', 'css3-alt', 'github', 'github'],
+let iconos = ['js', 'js', 'angular', 'angular', 'java', 'java', 'python', 'python', 'php', 'php', 'html5', 'html5', 'css3-alt', 'css3-alt', 'github', 'github'],
 
-    //algunas
+    // ** variables  **  //
+
     $container = $('.container'),
-    $scorePanel = $('.info'),
     $moves = $('.moves'),
     $timer = $('.timer'),
     $restart = $('.restart'),
     $deck = $('.deck'),
+    nowTime, // tiempo que llevas
+    allOpen = [], // cartas que están volteadas
+    match = 0, // número de aciertos
+    second = 0, // variable de segundos para el contador
+    moves = 0, // número de intentos
+    wait = 420, // variable de uso para delays
 
-    // Set variables to shorten code
-    nowTime,
-    allOpen = [],
-    match = 0,
-    second = 0,
-    moves = 0,
-    wait = 420,
-    totalCard = icono.length / 2,
+    parejas = iconos.length / 2; // numero de aciertos que se necesita para ganar (total de cartas / 2) porque hay dos cartas de cada tipo y una pareja por cada tipo de carta
 
-    // Scoring system from 1 to 3 stars to shorten code
-    stars3 = 14,
-    stars2 = 16,
-    star1 = 20;
-
-// Shuffling function: enables that no two games have the same card arrangement 
-function shuffle(array) {
-    let currentIndex = array.length, temporaryValue, randomIndex;
+// barajar el deck
+function Baraja(array) {
+    let currentIndex = array.length,
+        temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
@@ -38,94 +33,80 @@ function shuffle(array) {
     return array;
 }
 
-// The function init() enables the game to begin
-function init() {
+// Función que inicia el juego
+function Start() {
 
-    // The shuffle function shuffles the icono array
-    let allCards = shuffle(icono);
-    $deck.empty();
-
-    // The game starts with no matching cards and zero moves 
+    let allCards = Baraja(iconos); //llamo a la funcion de barajar
+    $deck.empty(); //vacío la variable del deck solucionador y reinicia variables
     match = 0;
     moves = 0;
     $moves.text('0');
 
-    // A for loop creates 16  <li> tags with the class of card for every <i> tag
-    // A class of fa fa- and a name of each object from the icono=[] array
+    /*       Se crean las cartas en el contenedor ".deck"        */
+
     for (let i = 0; i < allCards.length; i++) {
         $deck.append($('<li class="card"><i class="fab fa-' + allCards[i] + '"></i></li>'))
     }
-    addCardListener();
+    addCardListener(); //activo el listener de las cartas
 
-    // Enables the timer to reset to 0 when the game is restarted
-    resetTimer(nowTime);
+
+    resetTimer(nowTime); //Resetea el conómetro
     second = 0;
     $timer.text(`${second}`)
     initTime();
 }
 
-// Adds a score from 1 to 3 stars depending on the amount of moves done
-
-
-// Add boostrap modal alert window showing time, moves, score it took to finish the game, toggles when all pairs are matched.
+//**   Cuando se acierten todas las parejas, merge un MODAL de bootstrap que te indica el final de la partida   **//
 function gameOver(moves) {
     $('#winnerText').text(`En ${second} segundos, Has hecho un total de ${moves} movimientos. Bien hecho!`);
     $('#winnerModal').modal('toggle');
 }
 
-// Clicking on the button located on the top right of the game, enables the cards too be reset
+// Esta funcion "desbloquea las cartas" cuando se pulsa el boton "restart" 
 $restart.bind('click', function (confirmed) {
     if (confirmed) {
-        init();
+        Start();
     }
 });
 
-// This function allows each card to be validated that is an equal match to another card that is clicked on to stay open.
-// If cards do not match, both cards are flipped back over.
+// Esta funcion, permite desbloquear mas cartas, cuando una o mas parejas esten resueltas sin que se volteen
 let addCardListener = function () {
 
-    // With the following, the card that is clicked on is flipped
     $deck.find('.card').bind('click', function () {
         let $this = $(this);
 
-        if ($this.hasClass('show') || $this.hasClass('match')) { return true; }
+        if ($this.hasClass('show') || $this.hasClass('match')) {
+            return true;
+        }
 
         let card = $this.context.innerHTML;
         $this.addClass('open show');
         allOpen.push(card);
 
-        // Compares cards if they matched
+        // comparamos las cartas 
         if (allOpen.length > 1) {
-            if (card === allOpen[0]) {
+            if (card === allOpen[0]) { //si aciertas
                 $deck.find('.open').addClass('match');
                 setTimeout(function () {
                     $deck.find('open').removeClass('open show');
                 }, wait);
                 match++;
 
-                // If cards are not matched, there is a delay of 630ms, and the cards will turn back cover up.
+                // Si fallas
             } else {
                 $deck.find('.open').addClass('notmatch');
                 setTimeout(function () {
                     $deck.find('.open').removeClass('open show');
-                }, wait / 1.5);
+                }, wait / 0.5); //esto es el delay para que vuelvan a "no giradas"
             }
+            allOpen = []; // reinicia las cartas en juego
+            moves++; // suma un movimiento
 
-            // The allOpen array specifies all added cards facing up
-            allOpen = [];
-
-            // Increments the number of moves by one only when two cards are matched or not matched
-            moves++;
-
-            // The number of moves is added to the rating() function that will determine the star score
-            
-
-            // The number of moves are added to the modal HTML alert
-            $moves.html(moves);
+            $moves.html(moves); // actualiza los movimientos que llevas en la partida
         }
 
-        // The game is finished once all cards have been matched, with a short delay
-        if (totalCard === match) {
+        // compara el numero de parejas que tienes con el total, para ver si has ganado
+        if (parejas === match) {
             setTimeout(function () {
                 gameOver(moves);
             }, 500);
@@ -133,19 +114,18 @@ let addCardListener = function () {
     });
 }
 
-// Initiates the timer as soon as the game is loaded
-function initTime() {
+function initTime() { // inicia el crono
     nowTime = setInterval(function () {
         $timer.text(`${second}`)
         second = second + 1
     }, 1000);
 }
 
-// Resets the timer when the game ends or is restarted
-function resetTimer(timer) {
+function resetTimer(timer) { // Resetea el crono
+
     if (timer) {
         clearInterval(timer);
     }
 }
 
-init();
+Start();

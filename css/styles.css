@@ -41,6 +41,7 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    margin-top: 75px;
 }
 
 h1 {
@@ -55,14 +56,10 @@ a{
  */
 
 .deck {
-    width: 660px;
-    min-height: 760px;
+    width: 500px;
+    min-height: 525px;
     background: linear-gradient(210deg, #66f766 0%, #fd90e6 90%);
-    padding: 32px;
-    border-radius: 15px;
-    border-style: solid;
-    border-width: 0px !important;
-    border-color: black;
+    padding: 25px;
     border-radius: 15px;
     box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
     display: flex !important;
@@ -71,11 +68,14 @@ a{
     align-items: center !important;
     margin: 0 0 3em;
     opacity: 0.9;
+
+    
+    
 }
 
 .deck .card {
-    height: 145px;
-    width: 125px;
+    height: 110px;
+    width: 100px;
     background: black;
     font-size: 0;
     color: #f768d8;
@@ -85,12 +85,16 @@ a{
     justify-content: center !important;
     align-items: center !important;
     box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+    transition: 0.6s;
+    
+    
 }
 
 .deck .card.open {
-    transform: rotateY(0) !important;
     background: #ffffff;
     cursor: default;
+    transform: skew(0deg, -0.5turn) !important;
+    max-height: 110px;
 }
 
 .deck .card.show {
@@ -102,6 +106,7 @@ a{
     background: #388b38;
     color: #f768d8;
     font-size: 50px;
+    transform: skew(0deg, -0.5turn) !important;
 }
 
 /*
