@@ -72,46 +72,7 @@ $restart.bind('click', function (confirmed) {
 // Esta funcion, permite desbloquear mas cartas, cuando una o mas parejas esten resueltas sin que se volteen
 let addCardListener = function () {
 
-    $deck.find('.card').bind('click', function () {
-        let $this = $(this);
-
-        if ($this.hasClass('show') || $this.hasClass('match')) {
-            return true;
-        }
-
-        let card = $this.context.innerHTML;
-        $this.addClass('open show');
-        allOpen.push(card);
-
-        // comparamos las cartas 
-        if (allOpen.length > 1) {
-            if (card === allOpen[0]) { //si aciertas
-                $deck.find('.open').addClass('match');
-                setTimeout(function () {
-                    $deck.find('open').removeClass('open show');
-                }, wait);
-                match++;
-
-                // Si fallas
-            } else {
-                $deck.find('.open').addClass('notmatch');
-                setTimeout(function () {
-                    $deck.find('.open').removeClass('open show');
-                }, wait / 0.5); //esto es el delay para que vuelvan a "no giradas"
-            }
-            allOpen = []; // reinicia las cartas en juego
-            moves++; // suma un movimiento
-
-            $moves.html(moves); // actualiza los movimientos que llevas en la partida
-        }
-
-        // compara el numero de parejas que tienes con el total, para ver si has ganado
-        if (parejas === match) {
-            setTimeout(function () {
-                gameOver(moves);
-            }, 500);
-        }
-    });
+    $deck.find('.card').bind('click',  funcioncita);
 }
 
 function initTime() { // inicia el crono
@@ -129,3 +90,54 @@ function resetTimer(timer) { // Resetea el crono
 }
 
 Start();
+
+function habilitar(){
+    $('li').on('click',funcioncita);
+}
+function funcioncita(){
+
+    let $this = $(this);
+
+    if ($this.hasClass('show') || $this.hasClass('match')) {
+        return true;
+    }
+
+    let card = $this.context.innerHTML;
+    $this.addClass('open show');
+    allOpen.push(card);
+    
+    // comparamos las cartas 
+    if (allOpen.length > 1) {
+        if (card === allOpen[0]) { //si aciertas
+            $deck.find('.open').addClass('match');
+            var uno = setTimeout(function () {
+                $deck.find('open').removeClass('open show');
+            }, wait);
+            match++;
+
+            // Si fallas
+        } else {
+            $('li').off('click');
+            $('.card').click(false);
+            $deck.find('.open').addClass('notmatch');
+            var dos = setTimeout(function () {
+                $deck.find('.open').removeClass('open show');
+                habilitar();
+            }, wait / 0.5); //esto es el delay para que vuelvan a "no giradas"
+
+        }
+        allOpen = []; // reinicia las cartas en juego
+        moves++; // suma un movimiento
+
+        $moves.html(moves); // actualiza los movimientos que llevas en la partida
+    }
+
+    // compara el numero de parejas que tienes con el total, para ver si has ganado
+    if (parejas === match) {
+        setTimeout(function () {
+            gameOver(moves);
+        }, 500);
+    }
+}
+
+
