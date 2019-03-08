@@ -146,6 +146,14 @@ a{
     font-size: 125%;
 }
 
+.puntuaciones{
+    top:5px;
+    left: 70%;
+    position: fixed;
+    z-index: +9816541;
+    font-size: 125%;
+}
+
 /*
  * Responsiveness
  */

@@ -1,4 +1,54 @@
-// lista con todos los inconos que quiero que haya en el juego
+var user = '';
+
+$(document).ready(function () {
+    $(function () {
+        AjaxConnect("ranking.php")
+    });
+
+    function AjaxConnect(name) {
+        $.ajax({
+            url: name,
+            method: "get",
+            dataType: "json",
+            success: function (data) {
+                var tablita = '';
+                console.log(data);
+                data.sort(function(a, b){
+                    return a.segundos - b.segundos;
+                });
+                $('#tabla-ranking').append(`
+                
+                `);
+                for (i = 0; i < data.length; i++) {
+                    tablita+=`<tr>
+                        <td>`+data[i].user+`</td>
+                        <td>`+data[i].segundos+`</td>
+                        <td>`+data[i].movimientos+`</td>
+                    </tr>`;
+                }
+                $('#tabla-ranking').append(`
+                <table class="table">
+                <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Segundos</th>
+                    <th>Movimientos</th>
+                </tr>
+                </thead>
+                <tbody>
+                `+tablita+`
+
+                    </tbody>
+                </table>
+                `);
+            }
+        });
+    }
+
+});
+let Points = function(){
+    $('#ranking').modal('toggle');
+}
 
 let iconos = ['js', 'js', 'angular', 'angular', 'java', 'java', 'python', 'python', 'php', 'php', 'html5', 'html5', 'css3-alt', 'css3-alt', 'github', 'github'],
 
@@ -58,6 +108,8 @@ function Start() {
 
 //**   Cuando se acierten todas las parejas, merge un MODAL de bootstrap que te indica el final de la partida   **//
 function gameOver(moves) {
+    $('#uno').val(second);
+    $('#dos').val(moves);
     $('#winnerText').text(`En ${second} segundos, Has hecho un total de ${moves} movimientos. Bien hecho!`);
     $('#winnerModal').modal('toggle');
 }
@@ -72,7 +124,7 @@ $restart.bind('click', function (confirmed) {
 // Esta funcion, permite desbloquear mas cartas, cuando una o mas parejas esten resueltas sin que se volteen
 let addCardListener = function () {
 
-    $deck.find('.card').bind('click',  funcioncita);
+    $deck.find('.card').bind('click', funcioncita);
 }
 
 function initTime() { // inicia el crono
@@ -91,10 +143,10 @@ function resetTimer(timer) { // Resetea el crono
 
 Start();
 
-function habilitar(){
-    $('li').on('click',funcioncita);
+function habilitar() {
+    $('li').on('click', funcioncita);
 }
-function funcioncita(){
+function funcioncita() {
 
     let $this = $(this);
 
@@ -105,7 +157,7 @@ function funcioncita(){
     let card = $this.context.innerHTML;
     $this.addClass('open show');
     allOpen.push(card);
-    
+
     // comparamos las cartas 
     if (allOpen.length > 1) {
         if (card === allOpen[0]) { //si aciertas
@@ -139,5 +191,3 @@ function funcioncita(){
         }, 500);
     }
 }
-
-

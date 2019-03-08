@@ -14,10 +14,34 @@
     <link rel="stylesheet prefetch" href="https://fonts.googleapis.com/css?family=Coda">
     <link rel="stylesheet" href="css/styles.css">
 
-    <script src="jquery-3.3.1.min.js"></script>
+    <!-- <script src="jquery-3.3.1.min.js"></script> -->
 </head>
 
 <body>
+
+
+
+    <div class="modal fade" id="ranking" tabindex="-1" role="dialog" aria-labelledby="winnerModal-label">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="winnerModal-label">Ranking</h4>
+                </div>
+                <div class="modal-body">
+                    <p id="winnerText"></p>
+                </div>
+                <div class="modal-body">
+                    <div id="tabla-ranking">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <h3>Sigue superandote!!!</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <div class="modal fade" id="winnerModal" tabindex="-1" role="dialog" aria-labelledby="winnerModal-label">
         <div class="modal-dialog">
@@ -28,6 +52,15 @@
                 <div class="modal-body">
                     <p id="winnerText"></p>
                 </div>
+                <div class="modal-body">
+                    <p>Introduzca su nombre para registrar su puntuación o juegue de nuevo!!</p><br>
+                    <form role="form" action="grabadora.php" method="post" enctype="multipart/form-data">
+                        <input id="userin" name="nombre" class="form-control" type="text"><br>
+                        <input id="uno" name="segundos" type="number" hidden>
+                        <input id="dos" name="movimientos" type="number" hidden>
+                        <button onclick="Grabar();" type="submit" class="btn btn-dark">Registrar</button>
+                    </form>
+                </div>
                 <div class="modal-footer">
                     <button type="button" onclick="Start(), $rating.removeClass('fa-star-o').addClass('fa-star'); "
                         class="btn btn-default" data-dismiss="modal">Juega de nuevo!</button>
@@ -35,6 +68,10 @@
             </div>
         </div>
     </div>
+    <button onclick="Points();" class="btn puntuaciones bg-negro ">
+            Puntuaciones
+        </button>
+
     <button class="btn restart bg-negro ">
         Restart <i class="fa fa-repeat"></i>
     </button>
